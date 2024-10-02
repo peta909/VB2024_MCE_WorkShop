@@ -1,0 +1,69 @@
+seg000:047BE83A                         ; char __stdcall FN_XOR_loop(int cipher, int cipher_length, int key_length, int key)
+seg000:047BE83A                         FN_XOR_loop proc near
+seg000:047BE83A
+seg000:047BE83A                         cipher= dword ptr  4
+seg000:047BE83A                         cipher_length= dword ptr  8
+seg000:047BE83A                         key_length= dword ptr  0Ch
+seg000:047BE83A                         key= dword ptr  10h
+seg000:047BE83A
+seg000:047BE83A 8B 54 24 04             mov     edx, [esp+cipher]
+seg000:047BE83E 8B 4C 24 08             mov     ecx, [esp+cipher_length]
+seg000:047BE842 01 CA                   add     edx, ecx
+seg000:047BE844 F7 D9                   neg     ecx
+seg000:047BE846 8B 5C 24 0C             mov     ebx, [esp+key_length]
+seg000:047BE84A 85 D2                   test    edx, edx
+seg000:047BE84C 8B 44 24 10             mov     eax, [esp+key]
+
+
+
+ED66                               FN_XOR_loop_prologue proc near          ; CODE XREF: seg000:loc_478502D↑p
+seg000:047BED66 38 D0                                         cmp     al, dl
+seg000:047BED68 89 B5 FC 01 00 00                             mov     [ebp+1FCh], esi
+seg000:047BED6E BE 36 6E 5C BA                                mov     esi, 0BA5C6E36h
+seg000:047BED73 81 F6 01 D8 A8 32                             xor     esi, 32A8D801h
+seg000:047BED79 66 39 C3                                      cmp     bx, ax
+seg000:047BED7C 38 F4                                         cmp     ah, dh
+seg000:047BED7E 81 EE 02 DA 18 F6                             sub     esi, 0F618DA02h
+seg000:047BED84 38 EC                                         cmp     ah, ch
+seg000:047BED86 81 EE 14 DC DB 92                             sub     esi, 92DBDC14h  ; ESI=0x21
+seg000:047BED8C 81 FF D7 ED 64 4F                             cmp     edi, 4F64EDD7h
+seg000:047BED92 56                                            push    esi             ; key_length=0x21
+seg000:047BED93 38 D0                                         cmp     al, dl
+seg000:047BED95 8B B5 FC 01 00 00                             mov     esi, [ebp+1FCh]
+seg000:047BED9B 66 85 C3                                      test    bx, ax
+seg000:047BED9E 89 8D F4 01 00 00                             mov     [ebp+1F4h], ecx
+seg000:047BEDA4 89 D9                                         mov     ecx, ebx
+seg000:047BEDA6 51                                            push    ecx             ; cipher_length
+seg000:047BEDA7 81 7D 70 34 EA 00 00                          cmp     dword ptr [ebp+70h], 0EA34h
+seg000:047BEDAE 0F 84 08 2D 00 00                             jz      loc_47C1ABC
+seg000:047BEDB4 8B 8D F4 01 00 00                             mov     ecx, [ebp+1F4h]
+seg000:047BEDBA 38 C3                                         cmp     bl, al
+seg000:047BEDBC 89 BD 10 02 00 00                             mov     [ebp+210h], edi
+seg000:047BEDC2 81 FA 83 E9 CA 7B                             cmp     edx, 7BCAE983h
+seg000:047BEDC8 89 C7                                         mov     edi, eax
+seg000:047BEDCA 66 85 D2                                      test    dx, dx
+seg000:047BEDCD 57                                            push    edi             ; cipher
+seg000:047BEDCE 8B BD 10 02 00 00                             mov     edi, [ebp+210h]
+seg000:047BEDD4 38 CA                                         cmp     dl, cl
+seg000:047BEDD6 E8 5F FA FF FF                                call    FN_XOR_loop
+seg000:047BEDDB 66 81 FB DD 1D                                cmp     bx, 1DDDh
+seg000:047BEDE0 61                                            popa
+seg000:047BEDE1 C2 04 00                                      retn    4
+
+
+
+
+
+0478502D E8 34 9D 03 00                                call    FN_XOR_loop_prologue
+seg000:0478502D                               ; ---------------------------------------------------------------------------
+seg000:04785032 36                                            db  36h ; 6             ; key is here!
+seg000:04785033 73                                            db  73h ; s
+seg000:04785034 64                                            db  64h ; d
+seg000:04785035 15                                            db  15h
+seg000:04785036 8B                                            db  8Bh
+seg000:04785037 08                                            db    8
+seg000:04785038 FD                                            db 0FDh
+seg000:04785039 58                                            db  58h ; X
+seg000:0478503A BE                                            db 0BEh
+seg000:0478503B 54                                            db  54h ; T
+seg000:0478503C CE                                            db 0CEh
